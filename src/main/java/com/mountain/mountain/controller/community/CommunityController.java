@@ -3,6 +3,7 @@ package com.mountain.mountain.controller.community;
 import com.mountain.mountain.controller.community.dto.RegisterCommuDTO;
 import com.mountain.mountain.controller.community.dto.ResponseCommuDTO;
 import com.mountain.mountain.controller.community.specification.CommunitySpecification;
+import com.mountain.mountain.controller.mountainComment.dto.ResponseMTCommentDTO;
 import com.mountain.mountain.domain.community.dao.CommunityRepository;
 import com.mountain.mountain.domain.community.model.Community;
 import com.mountain.mountain.domain.community.service.CommunityService;
@@ -55,6 +56,13 @@ public class CommunityController {
         return communityService.findAll(spec, pageable).map(Community -> new ResponseCommuDTO(Community));
     }
 
+    // 사용자 커뮤니티글 전체 조회
+    @GetMapping("/user/{userId}")
+    public Page<ResponseCommuDTO> getUserComments(
+            @PathVariable("userId") String userId, Pageable pageable) {
+
+        return communityService.findAllUserCommunity(userId, pageable).map(Community -> new ResponseCommuDTO(Community));
+    }
 
     // 커뮤니티글 삭제
     @DeleteMapping("/{commupostNo}")
@@ -84,7 +92,6 @@ public class CommunityController {
         communityService.updateCommunity(user, commupostNo , registerCommuDTO);
 
     }
-
 
 
 }

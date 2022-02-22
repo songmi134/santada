@@ -3,8 +3,10 @@ package com.mountain.mountain.domain.community.service;
 import com.mountain.mountain.controller.community.dto.RegisterCommuDTO;
 import com.mountain.mountain.domain.category.model.Category;
 import com.mountain.mountain.domain.category.service.CategoryService;
+import com.mountain.mountain.domain.comment.model.Comment;
 import com.mountain.mountain.domain.community.dao.CommunityRepository;
 import com.mountain.mountain.domain.community.model.Community;
+import com.mountain.mountain.domain.user.dao.UserRepository;
 import com.mountain.mountain.domain.user.model.User;
 import com.mountain.mountain.exception.CustomException;
 import com.mountain.mountain.exception.ErrorCode;
@@ -24,7 +26,8 @@ public class CommunityService {
     CommunityRepository communityRepository;
     @Autowired
     CategoryService categoryService;
-
+    @Autowired
+    UserRepository userRepository;
 
     @Transactional
     public Community registerCommunity(RegisterCommuDTO registerCommuDTO ,User user ) {
@@ -47,6 +50,19 @@ public class CommunityService {
     @Transactional
     public Page<Community> findAll(Specification<Community> spec, Pageable pageable) {
         Page<Community> communities = communityRepository.findAll(spec, pageable);
+
+        if (communities.isEmpty())
+            throw new CustomException(ErrorCode.NOT_FOUND_COMMUNITY);
+
+        return communities;
+    }
+
+    @Transactional
+    public Page<Community> findAllUserCommunity(String userId, Pageable pageable) {
+        User user = userRepository.findById(userId)
+                .orElseThrow();// TODO: UserNotFoundException::new 추가하기
+
+        Page<Community> communities = communityRepository.findByWriterId(user, pageable);
 
         if (communities.isEmpty())
             throw new CustomException(ErrorCode.NOT_FOUND_COMMUNITY);
