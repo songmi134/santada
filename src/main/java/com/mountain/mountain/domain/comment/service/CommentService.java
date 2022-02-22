@@ -2,6 +2,7 @@ package com.mountain.mountain.domain.comment.service;
 
 import com.mountain.mountain.controller.communitycomment.dto.RegisterCommuCommentDTO;
 import com.mountain.mountain.controller.mountainComment.dto.RegisterMTCommentDTO;
+import com.mountain.mountain.controller.mountainComment.dto.ResponseMTCommentDTO;
 import com.mountain.mountain.domain.category.dao.CategoryRepository;
 import com.mountain.mountain.domain.category.model.Category;
 import com.mountain.mountain.domain.comment.dao.CommentRespository;
@@ -11,6 +12,7 @@ import com.mountain.mountain.domain.community.model.Community;
 import com.mountain.mountain.domain.mountain.dao.MountainRepository;
 import com.mountain.mountain.domain.mountain.model.Mountain;
 import com.mountain.mountain.domain.user.model.User;
+import com.mountain.mountain.domain.user.dao.UserRepository;
 import com.mountain.mountain.exception.CustomException;
 import com.mountain.mountain.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,8 @@ public class CommentService {
     @Autowired
     MountainRepository mountainRepository;
 
+    @Autowired
+    UserRepository userRepository;
 
     @Transactional
     public Comment createComment(User user, Community community, RegisterCommuCommentDTO registerCommentDTO) {
@@ -153,7 +157,14 @@ public class CommentService {
             commentRespository.save(comment);
         }
     }
+    /**/
+    @Transactional
+    public Page<Comment> findAllUserComments(String userId, Pageable pageable) {
+        User user = userRepository.findById(userId)
+                .orElseThrow();// TODO: UserNotFoundException::new 추가하기
 
+        return commentRespository.findByUser(user, pageable);
+    }
 
 
     @Transactional

@@ -4,6 +4,7 @@ package com.mountain.mountain.controller.mountainComment;
 import com.mountain.mountain.controller.communitycomment.dto.ResponseCommuCommentDTO;
 import com.mountain.mountain.controller.mountainComment.dto.RegisterMTCommentDTO;
 import com.mountain.mountain.controller.mountainComment.dto.ResponseMTCommentDTO;
+import com.mountain.mountain.domain.comment.model.Comment;
 import com.mountain.mountain.domain.comment.service.CommentService;
 import com.mountain.mountain.domain.community.model.Community;
 import com.mountain.mountain.domain.mountain.model.Mountain;
@@ -76,5 +77,13 @@ public class MountainCommentController {
         return commentService.getMountainCommentList(mountain,pageable).map(comment -> new ResponseMTCommentDTO(comment));
 
 
+    }
+
+    // MT 사용자 댓글 전체 조회
+    @GetMapping("/users/{userId}")
+    public Page<ResponseMTCommentDTO> getUserComments(
+            @PathVariable("userId") String userId, Pageable pageable) {
+
+        return commentService.findAllUserComments(userId, pageable).map(comment -> new ResponseMTCommentDTO(comment));
     }
 }
