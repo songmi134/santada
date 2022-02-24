@@ -78,7 +78,7 @@ public class CommentService {
                         .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPLY));
 
 
-        if (!comment.getUser().getId().equals(user.getId())) {
+        if (!comment.getUid().getId().equals(user.getId())) {
             throw new CustomException(ErrorCode.FORBIDDEN_USER);
         } else if (!comment.getCommuNo().equals(community)) {
             throw new CustomException(ErrorCode.BAD_REQUEST_PARAM);
@@ -96,7 +96,7 @@ public class CommentService {
               commentRespository.findById(commentNo)
                       .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPLY));
 
-      if(!comment.getUser().getId().equals(user.getId())) {
+      if(!comment.getUid().getId().equals(user.getId())) {
           throw new CustomException(ErrorCode.FORBIDDEN_USER);
       } else if(!comment.getCommuNo().equals(community)){
           throw new CustomException(ErrorCode.BAD_REQUEST_PARAM);
@@ -130,7 +130,7 @@ public class CommentService {
         Comment comment = commentRespository.findById(commentNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPLY));
 
-        if (!comment.getUser().getId().equals(user.getId())) {
+        if (!comment.getUid().getId().equals(user.getId())) {
             throw new CustomException(ErrorCode.FORBIDDEN_USER);
         } else if (!comment.getMountainNo().equals(mountain)) {
             throw new CustomException(ErrorCode.BAD_REQUEST_PARAM);
@@ -148,7 +148,7 @@ public class CommentService {
         Comment comment = commentRespository.findById(commentNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPLY));
 
-        if (!comment.getUser().getId().equals(user.getId())) {
+        if (!comment.getUid().getId().equals(user.getId())) {
             throw new CustomException(ErrorCode.FORBIDDEN_USER);
         } else if (!comment.getMountainNo().equals(mountain)) {
             throw new CustomException(ErrorCode.BAD_REQUEST_PARAM);
@@ -163,7 +163,8 @@ public class CommentService {
         User user = userRepository.findById(userId)
                 .orElseThrow();// TODO: UserNotFoundException::new 추가하기
 
-        return commentRespository.findByUser(user, pageable);
+        //return commentRespository.findByUser(user, pageable);
+        return commentRespository.findByUid(user, pageable);
     }
 
 

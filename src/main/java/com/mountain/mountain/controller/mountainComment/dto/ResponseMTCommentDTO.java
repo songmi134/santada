@@ -15,24 +15,23 @@ public class ResponseMTCommentDTO {
 
     private Long commentNo;
 
-    private UserDTO user;
-
-    private Mountain mountainNo;
-
     private String commentContent;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updateAt;
 
+    private UserDTO user;
+
+    //private Mountain mountainNo;
 
     public ResponseMTCommentDTO(Comment mtComment) {
         this.commentNo = mtComment.getCommentNo();
-        this.user = new UserDTO(mtComment.getUser());
+        this.user = new UserDTO(mtComment.getUid());
         this.commentContent = mtComment.getCommentContent();
         this.createdAt = mtComment.getFstRegDtm();
         this.updateAt = mtComment.getLstUpdDtm();
-        this.mountainNo = mtComment.getMountainNo();
+        //this.mountainNo = mtComment.getMountainNo();
     }
 
 }
