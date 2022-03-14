@@ -57,5 +57,5 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "mount-test" #
-          heroku_email: "skdksldk1485@naver.com"
+          heroku_app_name: "santada2" #
+          heroku_email: "songmi134@gmail.com"
